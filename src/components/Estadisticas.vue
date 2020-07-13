@@ -1,24 +1,49 @@
 <template>
-<div>
-    <H1>Hello from Estadisticas</H1>
+<div class="divCharts">
+    <h2>Estadisticas</h2>
 
-    <table>
+    <table width="100%">
+        <tr><th colspan="3">Datos oficiales en Jalisco</th></tr>
         <tr>
-            <td class="riskzones-chart">
+            <td><h4>Confirmados:</h4> {{this.dataJalisco.Confirmados}}</td>
+            <td><h4>Negativos:</h4>{{this.dataJalisco.Negativos}}</td>
+            <td><h4>Sospechos:</h4>{{this.dataJalisco.Sospechosos}}</td>
+        </tr>
+        <tr>
+            <td><h4>Defunciones:</h4>{{this.dataJalisco.Defunciones}}</td>
+            <td><h4>Recuperados:</h4>{{this.dataJalisco.Recuperados}}</td>
+            <td><h4>Activos:</h4>{{this.dataJalisco.Activos}}</td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <table id="tableCharts">
+        <!-- <h2 align="center">Datos de la web</h2> -->
+        <tr width="100%">
+            <td class="riskzones-chart" width="50%">
+                <h3>Infectados por area</h3>
                 <VerticalBar :chart-data='dataBarZones' height="300px" width="400px"></VerticalBar>
             </td>
-            <td class="symptoms-chart">
+            <td class="symptoms-chart" width="50%">
+                <h3>Síntomas comunes de infectados</h3>
                 <VerticalBar :chart-data='dataBarSymptoms' height="300px" width="400px"></VerticalBar>
             </td>
         </tr>
         <tr>
             <td class="history-chart" colspan="2">
+                <h3>Historial de infectados por día</h3>
                 <LineChart :chart-data="dataLineHistory" height="300px" width="800px"></LineChart>
             </td>
         </tr>
     </table>
 
-    <hr>
+    <div>
+        <h2>Test realizados</h2>
+        <h4>{{this.doneTestNumber}}</h4>
+    </div>
+
+    <!-- <hr> -->
 
     <!-- <table >
         <tr>
@@ -53,6 +78,16 @@ export default {
             symptomListCode:    null,
             symptomListName:    null,
             symptomDataChart:   null,
+
+            doneTestNumber:     null,
+            dataJalisco:        {
+                Confirmados:    null,
+                Negativos:      null,
+                Sospechosos:    null,
+                Defunciones:    null,
+                Recuperados:    null,
+                Activos:        null
+            },
         }
     },
 
@@ -60,9 +95,15 @@ export default {
 
     mounted(){
 
+        this.dataJalisco.Confirmados = 0;
+
+        //Setting initial values of variables
         this.settingInitialValues();
 
+        //Is filling data in charts
         this.fillSypmtoms();
+
+        this.test();
         
         // this.settingStyleCharts();
 
@@ -162,10 +203,10 @@ export default {
                 this.dataBarSymptoms = {
                 labels: this.symptomListName,
                 datasets: [{
-                    label: 'DefaultSintomas',
+                    label: 'Sintomas de infectados',
                     data: this.symptomDataChart,
                     borderColor: 'aqua', 
-                    pointBackgroundColor: 'blue', 
+                    backgroundColor: 'rgba(52, 132, 243, 0.64)', 
                 }]
                 };
 
@@ -215,12 +256,15 @@ export default {
                 console.log(tempDate);
                 console.log("ended");
 
+                this.doneTestNumber = filterData.length;
+
                 this.dataLineHistory = {
                     labels: labelHistory,
                     datasets: [{
-                        label: 'DefaultSintomas',
+                        label: 'Infectados por día',
                         data: dataHistory,
-                        borderColor: 'aqua', 
+                        borderColor: 'rgba(255, 15, 15, 0.65)', 
+                        backgroundColor: 'rgba(255, 15, 15, 0.65)'
                         // pointBackgroundColor: 'blue', 
                     }]
                 };
@@ -229,6 +273,30 @@ export default {
                 console.log(e);
             });
 
+        },
+
+        test(){
+            // console.log('aaaaaaaaaaaaaaaaaaaaaaaa');
+            axios.get('https://papvidadigital-test.com/covidV2020/api/actual/gobierno').then( response => {
+
+                let data = response.data;
+                this.dataJalisco;
+                console.log('data');
+                console.log(response.data);
+
+                for ( let i = 0 ; i < data.length ; i++ ){
+                    if(data[i]["Estado"].localeCompare('Jalisco') == 0){
+                        this.dataJalisco = data[i];
+                        break;
+                    }
+                }
+                console.log(this.dataJalisco);
+
+
+
+            }).catch( e => {
+                console.log(e);
+            });
         },
 
         settingInitialValues(){
@@ -289,4 +357,17 @@ export default {
     height: 200px;
     width: 400px;
 }
+h2{
+    color: blue;
+}
+table{
+    width: 100%
+}
+.divCharts{
+    /* padding-top:    10%; */
+    padding-right:  10%;
+    padding-bottom: 10%;
+    padding-left:   10%;
+}
+
 </style>
