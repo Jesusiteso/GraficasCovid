@@ -1,0 +1,136 @@
+  @import '~bootstrap/dist/css/bootstrap.css';
+
+  @font-face {
+    font-family: poppinsEB;
+    src: url('/src/assets/fonts/Poppins/Poppins-ExtraBold.ttf')format('truetype');
+  }
+
+  @font-face {
+    font-family: poppinsB;
+    src: url('/src/assets/fonts/Poppins/Poppins-Bold.ttf')format('truetype');
+  }
+
+  @font-face {
+    font-family: poppinsL;
+    src: url('/src/assets/fonts/Poppins/Poppins-Light.ttf')format('truetype');
+  }
+
+  @font-face {
+    font-family: poppinsR;
+    src: url('/src/assets/fonts/Poppins/Poppins-Regular.ttf')format('truetype');
+  }
+
+  @font-face {
+    font-family: poppinsSB;
+    src: url('/src/assets/fonts/Poppins/Poppins-SemiBold.ttf')format('truetype');
+  }
+
+  @font-face {
+    font-family: sans;
+    src: url('/src/assets/fonts/Nimbus/NimbusSanL-Reg.otf')format('opentype');
+  } 
+
+  /* #azul {
+    background-image: url('img/inicio/mapaazulfondo.jpg');
+  } */
+
+  
+
+body {
+  background-color: #F7F7F8;
+}
+
+.bg-dark-blue {
+  background: #00457C;
+}
+
+h1 {
+  color: #00457C;
+  text-transform: uppercase;
+}
+
+.navbar-dark .navbar-nav .active>.nav-link,
+.navbar-dark .navbar-nav .nav-link.active,
+.navbar-dark .navbar-nav .nav-link.show,
+.navbar-dark .navbar-nav .show>.nav-link {
+  color: #0080FF;
+  font-family: 'Poppins', sans-serif;
+
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: #fff;
+}
+
+.title {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+/* CARDS */
+
+p.card-text {
+  font-size: 65px;
+}
+
+h5.card-title.poppins-bold {
+  font-size: 20px;
+  
+}
+
+.red-card {
+  color: #BE0411;
+}
+
+.yellow-card {
+  color: #E5B449;
+}
+
+.blue-card {
+  color: #0066CC;
+}
+
+.gray-card {
+  color: #434142;
+}
+
+.margin-top {
+  margin-top: 30px;
+}
+
+img {
+  width: 70%;
+}
+
+.logo-text {
+  font-size: 30px;
+  margin-top: 20px;
+  margin-left: 10px;
+  color: #fff;
+}
+
+.card {
+  border-radius: 2.25rem;
+  /* height: 10%; */
+}
+
+.card-body p {
+  margin-top: 20%;
+  font-family: 'Poppins', sans-serif;
+
+}
+
+.col-md-auto a {
+  background-color: #D7D8DC;
+  border-color: #D7D8DC;
+  border-radius: 1.5em;
+  color: #00467C;
+}
+
+.update {
+  color: #6D6D6D;
+}
+
+/* .container{
+  height: 400px;
+} */

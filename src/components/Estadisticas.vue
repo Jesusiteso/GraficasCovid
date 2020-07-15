@@ -1,8 +1,8 @@
 <template>
 <div class="divCharts">
-    <h2>Estadisticas</h2>
+    <!-- <h2>Estadisticas</h2> -->
 
-    <table width="100%">
+    <!-- <table width="100%">
         <tr><th colspan="3">Datos oficiales en Jalisco</th></tr>
         <tr>
             <td><h4>Confirmados:</h4> {{this.dataJalisco.Confirmados}}</td>
@@ -14,36 +14,55 @@
             <td><h4>Recuperados:</h4>{{this.dataJalisco.Recuperados}}</td>
             <td><h4>Activos:</h4>{{this.dataJalisco.Activos}}</td>
         </tr>
-    </table>
+    </table> -->
 
-    <hr>
+    <!-- <hr> -->
+
+    <!-- <div>
+        <h2>Test realizados</h2>
+        <h4>{{this.doneTestNumber}}</h4>
+    </div> -->
 
     <table id="tableCharts">
         <!-- <h2 align="center">Datos de la web</h2> -->
         <tr width="100%">
+            <!-- <div class="card">
             <td class="riskzones-chart" width="50%">
-                <h3>Infectados por area</h3>
+                
+                <h2>Infectados por area</h2>
                 <VerticalBar :chart-data='dataBarZones' height="300px" width="400px"></VerticalBar>
+                
             </td>
+            </div> -->
+            <td style="display=inline-block;" width="50%" height="100%">
+                <div class="card text-center">
+                    <div class="card-body blue-card">
+                        <h5 class="card-title">Test realizados</h5>
+                        <p id="descartados" class="card-text">{{this.doneTestNumber}}</p>
+                    </div>
+                </div>
+            </td>
+
             <td class="symptoms-chart" width="50%">
-                <h3>Síntomas comunes de infectados</h3>
+                <h2>Síntomas comunes de infectados</h2>
                 <VerticalBar :chart-data='dataBarSymptoms' height="300px" width="400px"></VerticalBar>
             </td>
+
+            
+            
         </tr>
         <tr>
             <td class="history-chart" colspan="2">
-                <h3>Historial de infectados por día</h3>
+                <h2>Historial de infectados por día</h2>
                 <LineChart :chart-data="dataLineHistory" height="300px" width="800px"></LineChart>
             </td>
         </tr>
     </table>
 
-    <div>
-        <h2>Test realizados</h2>
-        <h4>{{this.doneTestNumber}}</h4>
-    </div>
+    
 
     <!-- <hr> -->
+
 
     <!-- <table >
         <tr>
@@ -65,6 +84,12 @@ import LineChart from './lineChart.js';
 // import PieChart from './pieChart.js';
 // import HorizontalBar from './horizontalBar.js';
 import VerticalBar from './verticalBar.js';
+import Plotly from 'plotly.js/lib/core';
+// var Plotly = require('plotly.js/lib/core');
+// import 'jquery';
+// import 'popper.js';
+// import 'bootstrap';
+// import '../assets/style.css'
 
 export default {
     name: 'Estadisticas',
@@ -103,7 +128,7 @@ export default {
         //Is filling data in charts
         this.fillSypmtoms();
 
-        this.test();
+        // this.test();
         
         // this.settingStyleCharts();
 
@@ -242,19 +267,19 @@ export default {
                         // tempDate = new Date(filterData[arrayCounter]["fechaCreacion"]);
                         
                         historyCounter++;
-                        console.log("un infectado");
+                        // console.log("un infectado");
                     }
                     dataHistory.push(historyCounter);
                     firstDate.setDate( firstDate.getDate() + 1 );
 
                 }
-                console.log(labelHistory);
-                console.log(firstDate);
-                console.log(lastDate);
-                console.log(dataHistory);
-                console.log(arrayCounter);
-                console.log(tempDate);
-                console.log("ended");
+                // console.log(labelHistory);
+                // console.log(firstDate);
+                // console.log(lastDate);
+                // console.log(dataHistory);
+                // console.log(arrayCounter);
+                // console.log(tempDate);
+                // console.log("ended");
 
                 this.doneTestNumber = filterData.length;
 
@@ -277,25 +302,46 @@ export default {
 
         test(){
             // console.log('aaaaaaaaaaaaaaaaaaaaaaaa');
-            axios.get('https://papvidadigital-test.com/covidV2020/api/actual/gobierno').then( response => {
+            // axios.get('https://papvidadigital-test.com/covidV2020/api/actual/gobierno').then( response => {
 
-                let data = response.data;
-                this.dataJalisco;
-                console.log('data');
-                console.log(response.data);
+            //     let data = response.data;
+            //     this.dataJalisco;
+            //     console.log('data');
+            //     console.log(response.data);
 
-                for ( let i = 0 ; i < data.length ; i++ ){
-                    if(data[i]["Estado"].localeCompare('Jalisco') == 0){
-                        this.dataJalisco = data[i];
-                        break;
-                    }
-                }
-                console.log(this.dataJalisco);
+            //     for ( let i = 0 ; i < data.length ; i++ ){
+            //         if(data[i]["Estado"].localeCompare('Jalisco') == 0){
+            //             this.dataJalisco = data[i];
+            //             break;
+            //         }
+            //     }
+            //     console.log(this.dataJalisco);
 
 
 
-            }).catch( e => {
-                console.log(e);
+            // }).catch( e => {
+            //     console.log(e);
+            // });
+
+            Plotly.d3.json('https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson', (err, raw) => {
+                var lon = raw.features.map(f => f.geometry.coordinates[0]);
+                var lat = raw.features.map(f => f.geometry.coordinates[1]);
+                var z = raw.features.map(f => f.properties.mag);
+
+                var data = [
+                  { type: "scattermapbox", lon: lon, lat: lat, z: z, hoverinfo: "y" }
+                ];
+
+                var layout = {
+                  mapbox: { style: "dark", zoom: 2, center: { lon: -150, lat: 60 } },
+                  margin: { t: 0, b: 0 }
+                };
+
+                var config = {
+                  mapboxAccessToken: "your access token"
+                };
+
+                Plotly.newPlot('mapPlotly', data, layout, config);
             });
         },
 
@@ -305,7 +351,7 @@ export default {
                     'dolorSeveroPecho',
                     'difExtremaRespirar',
                     'desorientado',
-                    'respEstimulos',
+                    // 'respEstimulos',
                     'olfato',
                     'gusto',
                     'fiebre',
@@ -323,10 +369,10 @@ export default {
                     'Dolor de pecho',
                     'Dificultad respiratoria',
                     'Desorientado',
-                    'respEstimulos**',
-                    'olfato**',
-                    'gusto**',
-                    'fiebre**',
+                    // 'respEstimulos**',
+                    'Falta de Olfato',
+                    'Falta de gusto',
+                    'Fiebre',
                     'Escalofrios',
                     'Respiracion',
                     'Diarrea',
@@ -357,7 +403,7 @@ export default {
     height: 200px;
     width: 400px;
 }
-h2{
+h2,h3{
     color: blue;
 }
 table{
@@ -369,5 +415,6 @@ table{
     padding-bottom: 10%;
     padding-left:   10%;
 }
+/* @import "../assets/style.css"; */
 
 </style>
